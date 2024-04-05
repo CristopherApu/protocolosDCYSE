@@ -38,6 +38,7 @@ int main() {
     return 0;
 }
 */
+/*
 #include <cstdio>
 
 int main() {
@@ -46,6 +47,71 @@ int main() {
     for (int i = 7; i >= 0; i--){
         int bit = (numero >> i) & 0x01;
         printf("%d", bit);
+    }
+    return 0;
+}
+*/
+#include <cstdio>
+
+void sum(int a, int b) {
+    printf("Favor ingrese el primer número: ");
+    scanf("%d", &a);
+    printf("Favor ingrese el segundo número: ");
+    scanf("%d", &b);
+    int result = a + b;
+    printf("El resultado de la suma es: %d\n", result);
+}
+void rest(int a, int b) {
+    printf("Favor ingrese el primer número: ");
+    scanf("%d", &a);
+    printf("Favor ingrese el segundo número: ");
+    scanf("%d", &b);
+    int result = a - b;
+    printf("El resultado de la resta es: %d\n", result);
+}
+void multi(float &a, float &b) {
+    printf("Favor ingrese el primer número: ");
+    scanf("%f", &a);
+    printf("Favor ingrese el segundo número: ");
+    scanf("%f", &b);
+    float result = a * b;
+    printf("El resultado de la multiplicación es: %.2f\n", result);
+}
+void div(float &a, float &b) {
+    printf("Favor ingrese el primer número: ");
+    scanf("%f", &a);
+    printf("Favor ingrese el segundo número: ");
+    scanf("%f", &b);
+    if (b != 0) {
+        float result = a / b;
+        printf("El resultado de la división es: %.2f\n", result);
+    } else {
+        printf("Error: no se puede dividir por cero.\n");
+    }
+}
+
+int main() {
+    char op;
+    printf("Hola, qué tipo de operación quisieras realizar?\n1.- Suma\n2.- Resta\n3.- División\n4.- Multiplicación\n");
+    scanf(" %c", &op);
+    switch (op) {
+        case '1':
+            sum(0, 0);
+            break;
+        case '2':
+            rest(0, 0);
+            break;
+        case '3':
+            float num1, num2;
+            div(num1, num2);
+            break;
+        case '4':
+            float num3, num4;
+            multi(num3, num4);
+            break;
+        default:
+            printf("Orden no identificada\n");
+            break;
     }
     return 0;
 }
