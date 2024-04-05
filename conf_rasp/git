@@ -1,0 +1,9 @@
+// subir todo
+git add .
+
+// comentar
+git commit -m "---"
+
+// subir a main
+git push origin main
+
