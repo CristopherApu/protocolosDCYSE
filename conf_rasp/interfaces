@@ -1,0 +1,26 @@
+apu@raspberrypi:~ $ sudo cat /etc/network/interfaces
+
+
+auto lo
+iface lo inet loopback
+auto eth0
+iface eth0 inet static
+address 10.42.0.10
+netmask 255.255.255.0
+gateway 10.42.0.1
+dns-nameservers 10.42.0.1
+
+auto wlan0
+allow-hotplug wlan0
+iface wlan0 inet dhcp
+#address 192.168.170.22
+#netmask 255.255.255.0
+#gateway 192.168.170.161
+#       wpa-ssid Apu
+#       wpa-psk 22032002
+iface default inet dhcp
+
+
+# interfaces(5) file used by ifup(8) and ifdown(8)
+# Include files from /etc/network/interfaces.d:
+# source /etc/network/interfaces.d/*
