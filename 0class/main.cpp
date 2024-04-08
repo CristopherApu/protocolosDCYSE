@@ -52,66 +52,59 @@ int main() {
 }
 */
 #include <cstdio>
+#include "struct.h"
 
-void sum(int a, int b) {
-    printf("Favor ingrese el primer número: ");
-    scanf("%d", &a);
-    printf("Favor ingrese el segundo número: ");
-    scanf("%d", &b);
-    int result = a + b;
-    printf("El resultado de la suma es: %d\n", result);
-}
-void rest(int a, int b) {
-    printf("Favor ingrese el primer número: ");
-    scanf("%d", &a);
-    printf("Favor ingrese el segundo número: ");
-    scanf("%d", &b);
-    int result = a - b;
-    printf("El resultado de la resta es: %d\n", result);
-}
-void multi(float &a, float &b) {
-    printf("Favor ingrese el primer número: ");
-    scanf("%f", &a);
-    printf("Favor ingrese el segundo número: ");
-    scanf("%f", &b);
-    float result = a * b;
-    printf("El resultado de la multiplicación es: %.2f\n", result);
-}
-void div(float &a, float &b) {
-    printf("Favor ingrese el primer número: ");
-    scanf("%f", &a);
-    printf("Favor ingrese el segundo número: ");
-    scanf("%f", &b);
-    if (b != 0) {
-        float result = a / b;
-        printf("El resultado de la división es: %.2f\n", result);
-    } else {
-        printf("Error: no se puede dividir por cero.\n");
-    }
-}
+void sum(int a, int b);
+void rest(int a, int b);
+void multi(float &a, float &b);
+void div(float &a, float &b);
 
 int main() {
     char op;
     printf("Hola, qué tipo de operación quisieras realizar?\n1.- Suma\n2.- Resta\n3.- División\n4.- Multiplicación\n");
     scanf(" %c", &op);
+
     switch (op) {
-        case '1':
-            sum(0, 0);
+        case '1': {
+            Numeros n;
+            printf("Favor ingrese el primer número: ");
+            scanf("%d", &n.a);
+            printf("Favor ingrese el segundo número: ");
+            scanf("%d", &n.b);
+            sum(n.a, n.b);
             break;
-        case '2':
-            rest(0, 0);
+        }
+        case '2': {
+            Numeros m;
+            printf("Favor ingrese el primer número: ");
+            scanf("%d", &m.a);
+            printf("Favor ingrese el segundo número: ");
+            scanf("%d", &m.b);
+            rest(m.a, m.b);
             break;
-        case '3':
-            float num1, num2;
-            div(num1, num2);
+        }
+        case '3': {
+            Numeros o;
+            printf("Favor ingrese el primer número: ");
+            scanf("%f", &o.c);
+            printf("Favor ingrese el segundo número: ");
+            scanf("%f", &o.d);
+            div(o.c, o.d);
             break;
-        case '4':
-            float num3, num4;
-            multi(num3, num4);
+        }
+        case '4': {
+            Numeros p;
+            printf("Favor ingrese el primer número: ");
+            scanf("%f", &p.c);
+            printf("Favor ingrese el segundo número: ");
+            scanf("%f", &p.d);
+            multi(p.c, p.d);
             break;
+        }
         default:
             printf("Orden no identificada\n");
             break;
     }
+
     return 0;
 }
