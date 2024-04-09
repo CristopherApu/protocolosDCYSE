@@ -1,3 +1,4 @@
-ToolSet: 1.0 (local)Options: 
+ToolSet: w64 9.0 (local)@V:\Archivos de programa\CLion 2022.1\bin\mingw
+Options: 
 
-Options:-DCMAKE_MAKE_PROGRAM=/snap/clion/265/bin/ninja/linux/x64/ninja
+Options:
