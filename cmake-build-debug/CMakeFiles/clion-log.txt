@@ -1,0 +1,6 @@
+"V:\Archivos de programa\CLion 2022.1\bin\cmake\win\bin\cmake.exe" -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - MinGW Makefiles" -S D:\ICT\repos\protocolosDCYSE -B D:\ICT\repos\protocolosDCYSE\cmake-build-debug
+CMake Error at CMakeLists.txt:1 (cmake_minimum_required):
+  CMake 3.27 or higher is required.  You are running version 3.22.3
+
+
+-- Configuring incomplete, errors occurred!

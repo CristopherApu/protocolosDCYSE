@@ -1,0 +1,3 @@
+D:/ICT/repos/protocolosDCYSE/0class/cmake-build-debug/CMakeFiles/0class.dir
+D:/ICT/repos/protocolosDCYSE/0class/cmake-build-debug/CMakeFiles/edit_cache.dir
+D:/ICT/repos/protocolosDCYSE/0class/cmake-build-debug/CMakeFiles/rebuild_cache.dir
