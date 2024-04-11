@@ -1,0 +1,5 @@
+para compilar con wiringPi
+
+g++ parpadeo.cpp -o ppdo -L/usr/local/lib -lwiringPi
+
+parpadeo.cpp es el archivo y ppdo el ejecutable
