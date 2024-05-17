@@ -1,24 +1,20 @@
-apu@raspberrypi:~ $ sudo cat /etc/network/interfaces
+#apu@raspberrypi:~ $ sudo cat /etc/network/interfaces
 
 #interfaces-PSistemas
 auto lo
 iface lo inet loopback
 auto eth0
 iface eth0 inet static
-address 10.42.0.12
+address 10.42.0.68
 netmask 255.255.255.0
 #Configuracion WIFI para PSistemas
 auto wlan0
 allow-hotplug wlan0
 iface wlan0 inet static
-address 192.168.0.77
+address 192.168.0.68
 netmask 255.255.255.0
 gateway 192.168.0.1
 dns-nameservers 192.168.0.1
 wpa-ssid Lenina
 wpa-psk #Melipulli1312
 iface default inet dhcp
-
-# interfaces(5) file used by ifup(8) and ifdown(8)
-# Include files from /etc/network/interfaces.d:
-# source /etc/network/interfaces.d/*
