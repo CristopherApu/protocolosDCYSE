@@ -1,3 +1,0 @@
-/home/apu/protocolosDCYSE/cmake-build-debug/CMakeFiles/protocolosDCYSE.dir
-/home/apu/protocolosDCYSE/cmake-build-debug/CMakeFiles/edit_cache.dir
-/home/apu/protocolosDCYSE/cmake-build-debug/CMakeFiles/rebuild_cache.dir
