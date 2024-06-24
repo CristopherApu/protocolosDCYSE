@@ -1,9 +1,7 @@
 #include "slip.h"
 
-std::vector<unsigned char> slip_codificar(const std::vector<unsigned char>& input) {
+std::vector<unsigned char> slip_encode(const std::vector<unsigned char>& input) {
     std::vector<unsigned char> output;
-    output.push_back(END); // Marca de inicio
-
     for (auto byte : input) {
         switch (byte) {
             case END:
@@ -16,36 +14,32 @@ std::vector<unsigned char> slip_codificar(const std::vector<unsigned char>& inpu
                 break;
             default:
                 output.push_back(byte);
+                break;
         }
     }
-
-    output.push_back(END); // Marca de fin
+    output.push_back(END);
     return output;
 }
 
-std::vector<unsigned char> slip_decodificar(const std::vector<unsigned char>& input) {
+std::vector<unsigned char> slip_decode(const std::vector<unsigned char>& input) {
     std::vector<unsigned char> output;
-    bool escapando = false;
-
-    for (size_t i = 0; i < input.size(); ++i) {
-        if (!escapando) {
-            if (input[i] == ESC) {
-                escapando = true;
-            } else if (input[i] == END) {
-                // Fin del paquete, terminamos la decodificación
-                break;
-            } else {
-                output.push_back(input[i]);
-            }
-        } else {
-            if (input[i] == ESC_END) {
+    bool escaped = false;
+    
+    for (auto byte : input) {
+        if (escaped) {
+            if (byte == ESC_END) {
                 output.push_back(END);
-            } else if (input[i] == ESC_ESC) {
+            } else if (byte == ESC_ESC) {
                 output.push_back(ESC);
             }
-            escapando = false;
+            escaped = false;
+        } else {
+            if (byte == ESC) {
+                escaped = true;
+            } else {
+                output.push_back(byte);
+            }
         }
     }
-
     return output;
 }

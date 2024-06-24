@@ -1,13 +1,26 @@
-all: nodo
+# Compilador
+CXX = g++
 
-nodo: nodo.o slip.o
-	g++ -o nodo nodo.o slip.o
+# Opciones de compilación
+CXXFLAGS = -std=c++11 -Wall
 
-nodo.o: nodo.cpp slip.h ipv4.h
-	g++ -c nodo.cpp
+# Archivos objeto
+OBJS = nodo.o slip.o
+
+# Regla principal para construir el ejecutable
+nodo: $(OBJS)
+	$(CXX) $(CXXFLAGS) -o nodo $(OBJS)
+
+# Reglas para construir los archivos objeto
+nodo.o: nodo.cpp slip.h
+	$(CXX) $(CXXFLAGS) -c nodo.cpp
 
 slip.o: slip.cpp slip.h
-	g++ -c slip.cpp
+	$(CXX) $(CXXFLAGS) -c slip.cpp
 
+# Limpieza de archivos generados
 clean:
-	rm -f nodo nodo.o slip.o
+	rm -f $(OBJS) nodo
+
+# Regla phony para evitar conflictos con archivos llamados clean
+.PHONY: clean
