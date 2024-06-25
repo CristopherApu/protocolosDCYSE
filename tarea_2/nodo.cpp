@@ -74,7 +74,6 @@ int main(int argc, char *argv[]) {
         // Leer datos del puerto RX
         if (FD_ISSET(fd_rx, &readfds)) {
             int bytes_read = readPort(fd_rx, buffer, BUFFER_SIZE, 1000);
-
             if (bytes_read > 0) {
                 printf("Datos recibidos en el puerto de recepción\n");
                 // Convertir los datos leídos a un vector
@@ -104,9 +103,28 @@ int main(int argc, char *argv[]) {
                     input_buffer[len-1] = '\0';
                 }
 
-                // Enviar mensaje
-                std::vector<unsigned char> data(input_buffer, input_buffer + strlen(input_buffer));
-                enviar_mensaje(fd_tx, 0xFFFFFFFF, data, 64, rand() % 65536); // Broadcast con TTL 64 y ID aleatoria
+                printf("Ingrese tipo de mensaje (unicast/broadcast): ");
+                char tipo_mensaje[BUFFER_SIZE];
+                fgets(tipo_mensaje, BUFFER_SIZE, stdin);
+                tipo_mensaje[strcspn(tipo_mensaje, "\n")] = '\0';
+
+                if (strcmp(tipo_mensaje, "unicast") == 0) {
+                    printf("Ingrese la IP de destino: ");
+                    char ip_destino_str[BUFFER_SIZE];
+                    fgets(ip_destino_str, BUFFER_SIZE, stdin);
+                    ip_destino_str[strcspn(ip_destino_str, "\n")] = '\0';
+                    uint32_t ip_destino = convertir_ip(ip_destino_str);
+
+                    // Enviar mensaje unicast
+                    std::vector<unsigned char> data(input_buffer, input_buffer + strlen(input_buffer));
+                    enviar_mensaje(fd_tx, ip_destino, data, 64, rand() % 65536);
+                } else if (strcmp(tipo_mensaje, "broadcast") == 0) {
+                    // Enviar mensaje broadcast
+                    std::vector<unsigned char> data(input_buffer, input_buffer + strlen(input_buffer));
+                    enviar_mensaje(fd_tx, 0xFFFFFFFF, data, 4, rand() % 65536); // Broadcast con TTL 4
+                } else {
+                    printf("Tipo de mensaje no reconocido.\n");
+                }
             }
         }
     }
@@ -140,6 +158,8 @@ void procesar_paquete(const IPv4Packet& paquete, const char* puerto_tx, int fd_t
 
         std::vector<unsigned char> encoded_data = slip_encode(encapsulate_ipv4(nuevo_paquete));
         writePort(fd_tx, encoded_data.data(), encoded_data.size());
+    } else if (paquete.dest_ip == current_ip) { // Unicast y TTL ha llegado a 1
+        printf("Unicast recibido de IP: %u, Mensaje: %s\n", paquete.src_ip, paquete.data.data());
     }
 }
 
