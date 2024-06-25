@@ -1,26 +1,38 @@
-CXX = g++
-CXXFLAGS = -Wall -std=c++11
-OBJS = nodo.o slip.o serial.o virtualSocket.o
+# Compila todos los archivos
+all:
+	g++ -Wall serial.cpp -c
+	g++ -Wall slip.cpp -c
+	g++ -Wall nodo.cpp -c
+	g++ -Wall slip.o serial.o nodo.o -o nodo
 
-all: nodo virtualSocket
+# Compila virtualSocket
+socket:
+	g++ -Wall virtualSocket.cpp -o virtualSocket
 
-nodo: nodo.o slip.o serial.o
-	$(CXX) $(CXXFLAGS) -o nodo nodo.o slip.o serial.o
+prepara_carpeta:
+	mkdir -p /tmp
+	rm -f /tmp/p*
 
-virtualSocket: virtualSocket.o
-	$(CXX) $(CXXFLAGS) -o virtualSocket virtualSocket.o
+# Corre virtualSocket
+run_socket: prepara_carpeta
+	./virtualSocket /tmp/p1 /tmp/p2 & ./virtualSocket /tmp/p3 /tmp/p4 & ./virtualSocket /tmp/p5 /tmp/p6 & ./virtualSocket /tmp/p7 /tmp/p8 & ./virtualSocket /tmp/p9 /tmp/p10
 
-nodo.o: nodo.cpp slip.h serial.h
-	$(CXX) $(CXXFLAGS) -c nodo.cpp
+# Ejecuta los nodos
+nodo1:
+	./nodo 192.168.130.1 /tmp/p1 /tmp/p10
 
-slip.o: slip.cpp slip.h
-	$(CXX) $(CXXFLAGS) -c slip.cpp
+nodo2:
+	./nodo 192.168.130.2 /tmp/p3 /tmp/p2
 
-serial.o: serial.cpp serial.h
-	$(CXX) $(CXXFLAGS) -c serial.cpp
+nodo3:
+	./nodo 192.168.130.3 /tmp/p5 /tmp/p4
 
-virtualSocket.o: virtualSocket.cpp
-	$(CXX) $(CXXFLAGS) -c virtualSocket.cpp
+nodo4:
+	./nodo 192.168.130.4 /tmp/p7 /tmp/p6
 
+nodo5:
+	./nodo 192.168.130.5 /tmp/p9 /tmp/p8
+
+# Limpia los archivos objeto
 clean:
-	rm -f nodo virtualSocket $(OBJS)
+	rm *.o

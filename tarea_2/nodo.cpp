@@ -23,8 +23,8 @@ int main(int argc, char *argv[]) {
     puerto_rx = argv[3];
 
     printf("Nodo iniciado con IP: %s\n", ip);
-    printf("Puerto TX: %s\n", puerto_tx);
-    printf("Puerto RX: %s\n", puerto_rx);
+    printf("Puerto de envío: %s\n", puerto_tx);
+    printf("Puerto de recepción: %s\n", puerto_rx);
 
     // Abrir puertos seriales
     int fd_tx = openPort(puerto_tx, B9600);
