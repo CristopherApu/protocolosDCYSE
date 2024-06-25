@@ -74,6 +74,7 @@ int main(int argc, char *argv[]) {
         // Leer datos del puerto RX
         if (FD_ISSET(fd_rx, &readfds)) {
             int bytes_read = readPort(fd_rx, buffer, BUFFER_SIZE, 1000);
+
             if (bytes_read > 0) {
                 printf("Datos recibidos en el puerto de recepción\n");
                 // Convertir los datos leídos a un vector
@@ -95,6 +96,7 @@ int main(int argc, char *argv[]) {
 
         // Leer entrada del usuario
         if (FD_ISSET(STDIN_FILENO, &readfds)) {
+            printf("Ingresa un mensaje a enviar: ");
             char input_buffer[BUFFER_SIZE];
             if (fgets(input_buffer, BUFFER_SIZE, stdin) != NULL) {
                 // Eliminar el carácter de nueva línea
@@ -154,6 +156,8 @@ void procesar_paquete(const IPv4Packet& paquete, const char* puerto_tx, int fd_t
         } else if (paquete.dest_ip == current_ip) { // Unicast
             printf("Unicast recibido de IP: %u, Mensaje: %s\n", paquete.src_ip, paquete.data.data());
             return;
+        } else { // Unicast para otro nodo
+            printf("Estamos transportando un mensaje oculto de un nodo a otro!\n");
         }
 
         std::vector<unsigned char> encoded_data = slip_encode(encapsulate_ipv4(nuevo_paquete));
