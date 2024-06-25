@@ -2,6 +2,7 @@
 #define SLIP_H
 
 #include <vector>
+#include <cstddef>
 
 // Definición de los caracteres especiales SLIP
 #define END     0xC0

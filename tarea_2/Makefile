@@ -1,26 +1,26 @@
-# Compilador
 CXX = g++
+CXXFLAGS = -Wall -std=c++11
+OBJS = nodo.o slip.o serial.o virtualSocket.o
 
-# Opciones de compilación
-CXXFLAGS = -std=c++11 -Wall
+all: nodo virtualSocket
 
-# Archivos objeto
-OBJS = nodo.o slip.o
+nodo: nodo.o slip.o serial.o
+	$(CXX) $(CXXFLAGS) -o nodo nodo.o slip.o serial.o
 
-# Regla principal para construir el ejecutable
-nodo: $(OBJS)
-	$(CXX) $(CXXFLAGS) -o nodo $(OBJS)
+virtualSocket: virtualSocket.o
+	$(CXX) $(CXXFLAGS) -o virtualSocket virtualSocket.o
 
-# Reglas para construir los archivos objeto
-nodo.o: nodo.cpp slip.h
+nodo.o: nodo.cpp slip.h serial.h
 	$(CXX) $(CXXFLAGS) -c nodo.cpp
 
 slip.o: slip.cpp slip.h
 	$(CXX) $(CXXFLAGS) -c slip.cpp
 
-# Limpieza de archivos generados
-clean:
-	rm -f $(OBJS) nodo
+serial.o: serial.cpp serial.h
+	$(CXX) $(CXXFLAGS) -c serial.cpp
 
-# Regla phony para evitar conflictos con archivos llamados clean
-.PHONY: clean
+virtualSocket.o: virtualSocket.cpp
+	$(CXX) $(CXXFLAGS) -c virtualSocket.cpp
+
+clean:
+	rm -f nodo virtualSocket $(OBJS)
