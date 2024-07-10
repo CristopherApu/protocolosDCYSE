@@ -2,7 +2,7 @@ CXX = g++
 CXXFLAGS = -Wall -g
 
 TARGET = nodo
-SRCS = nodo.cpp
+SRCS = src/nodo.cpp src/funciones.cpp
 
 all: $(TARGET)
 
@@ -11,3 +11,5 @@ $(TARGET): $(SRCS)
 
 clean:
 	rm -f $(TARGET)
+
+reboot: clean all

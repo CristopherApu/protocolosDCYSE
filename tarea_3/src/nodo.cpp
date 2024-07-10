@@ -6,29 +6,44 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    const char* ip = argv[1];
     int puerto1 = atoi(argv[2]);
-    int puerto2 = atoi(argv[3]);
 
     std::vector<Ruta> tablaRutas;
 
     // Lógica principal del programa
-    // Aquí irán las funciones para enviar y recibir mensajes, así como para actualizar la tabla de rutas
+    char tipoMensaje[10];
+    char mensaje[256];
+    char destino[16];
+    int puertoDestino;
+
+    while (true) {
+        printf("Ingrese el tipo de mensaje (broadcast/unicast): ");
+        scanf("%s", tipoMensaje);
+
+        if (strcmp(tipoMensaje, "broadcast") == 0) {
+            printf("Ingrese el mensaje: ");
+            getchar(); // Limpiar el buffer de entrada
+            fgets(mensaje, sizeof(mensaje), stdin);
+            // Eliminar el salto de línea al final de fgets
+            mensaje[strcspn(mensaje, "\n")] = '\0';
+            enviarMensaje(tipoMensaje, mensaje, "F.F.F.F", puerto1, tablaRutas);
+        } else if (strcmp(tipoMensaje, "unicast") == 0) {
+            printf("Ingrese el mensaje: ");
+            getchar(); // Limpiar el buffer de entrada
+            fgets(mensaje, sizeof(mensaje), stdin);
+            // Eliminar el salto de línea al final de fgets
+            mensaje[strcspn(mensaje, "\n")] = '\0';
+            printf("Ingrese la IP de destino: ");
+            scanf("%s", destino);
+            printf("Ingrese el puerto de destino: ");
+            scanf("%d", &puertoDestino);
+            enviarMensaje(tipoMensaje, mensaje, destino, puertoDestino, tablaRutas);
+        } else {
+            printf("Tipo de mensaje no válido.\n");
+        }
+
+        mostrarTablaRutas(tablaRutas);
+    }
 
     return 0;
-}
-
-void enviarMensaje(const char* tipo, const char* mensaje, const char* destino, int puerto, std::vector<Ruta> &tablaRutas) {
-    // Implementación de la función para enviar mensajes
-}
-
-void recibirMensaje(const char* mensaje, std::vector<Ruta> &tablaRutas) {
-    // Implementación de la función para recibir mensajes
-}
-
-void mostrarTablaRutas(const std::vector<Ruta> &tablaRutas) {
-    // Implementación de la función para mostrar la tabla de rutas
-    for (const auto &ruta : tablaRutas) {
-        printf("IP: %s, Puerto: %d, TTL: %d\n", ruta.ip, ruta.puerto, ruta.ttl);
-    }
 }

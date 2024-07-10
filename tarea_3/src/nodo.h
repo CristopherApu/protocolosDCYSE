@@ -5,10 +5,11 @@
 #include <stdlib.h>
 #include <string.h>
 #include <vector>
+#include <string>
 
 // Definición de la estructura de la tabla de rutas
 struct Ruta {
-    char ip[16];
+    std::string ip;
     int puerto;
     int ttl;
 };
@@ -16,6 +17,7 @@ struct Ruta {
 // Declaraciones de funciones
 void enviarMensaje(const char* tipo, const char* mensaje, const char* destino, int puerto, std::vector<Ruta> &tablaRutas);
 void recibirMensaje(const char* mensaje, std::vector<Ruta> &tablaRutas);
+void reenviarMensaje(const char* tipo, const char* mensaje, int puerto, int ttl, std::vector<Ruta> &tablaRutas);
 void mostrarTablaRutas(const std::vector<Ruta> &tablaRutas);
 
 #endif
