@@ -1,44 +1,40 @@
-CXX = g++
-CXXFLAGS = -Wall -g -std=c++11
-
-TARGET = nodo
-VIRTUAL_SOCKET = src/virtualSocket
-VIRTUAL_SOCKET_SRC = src/virtualSocket.cpp
-SRCS = src/nodo.cpp src/funciones.cpp
+CC=g++
+CFLAGS=-Wall
+SRC_DIR=src
 
 all: nodo virtualSocket
 
-nodo: $(SRCS)
-	$(CXX) $(CXXFLAGS) -o nodo $(SRCS)
+nodo: $(SRC_DIR)/nodo.o $(SRC_DIR)/funciones.o $(SRC_DIR)/serial.o $(SRC_DIR)/slip.o $(SRC_DIR)/ipv4.o
+	$(CC) $(CFLAGS) -o nodo $(SRC_DIR)/nodo.o $(SRC_DIR)/funciones.o $(SRC_DIR)/serial.o $(SRC_DIR)/slip.o $(SRC_DIR)/ipv4.o
 
-virtualSocket: $(VIRTUAL_SOCKET_SRC)
-	$(CXX) $(CXXFLAGS) -o $(VIRTUAL_SOCKET) $(VIRTUAL_SOCKET_SRC)
+$(SRC_DIR)/nodo.o: $(SRC_DIR)/nodo.cpp $(SRC_DIR)/nodo.h
+	$(CC) $(CFLAGS) -c $(SRC_DIR)/nodo.cpp -o $(SRC_DIR)/nodo.o
+
+$(SRC_DIR)/funciones.o: $(SRC_DIR)/funciones.cpp $(SRC_DIR)/nodo.h
+	$(CC) $(CFLAGS) -c $(SRC_DIR)/funciones.cpp -o $(SRC_DIR)/funciones.o
+
+$(SRC_DIR)/serial.o: $(SRC_DIR)/serial.cpp $(SRC_DIR)/serial.h
+	$(CC) $(CFLAGS) -c $(SRC_DIR)/serial.cpp -o $(SRC_DIR)/serial.o
+
+$(SRC_DIR)/slip.o: $(SRC_DIR)/slip.cpp $(SRC_DIR)/slip.h
+	$(CC) $(CFLAGS) -c $(SRC_DIR)/slip.cpp -o $(SRC_DIR)/slip.o
+
+$(SRC_DIR)/ipv4.o: $(SRC_DIR)/ipv4.cpp $(SRC_DIR)/ipv4.h
+	$(CC) $(CFLAGS) -c $(SRC_DIR)/ipv4.cpp -o $(SRC_DIR)/ipv4.o
+
+virtualSocket: $(SRC_DIR)/virtualSocket.cpp
+	$(CC) $(CFLAGS) -o virtualSocket $(SRC_DIR)/virtualSocket.cpp
 
 clean:
-	rm -f nodo $(VIRTUAL_SOCKET)
-	rm -rf tmp
+	rm -f nodo virtualSocket $(SRC_DIR)/*.o
+	rm -f /tmp/p*
 
-prepara_carpeta:
-	rm -rf /tmp/p1 /tmp/p2 /tmp/p3 /tmp/p4 /tmp/p5 /tmp/p6 /tmp/p7 /tmp/p8 /tmp/p9 /tmp/p10
-
-run_socket: prepara_carpeta
+reboot: clean all
+	mkdir -p /tmp
 	socat -d -d pty,raw,echo=0,link=/tmp/p1 pty,raw,echo=0,link=/tmp/p2 &
 	socat -d -d pty,raw,echo=0,link=/tmp/p3 pty,raw,echo=0,link=/tmp/p4 &
 	socat -d -d pty,raw,echo=0,link=/tmp/p5 pty,raw,echo=0,link=/tmp/p6 &
 	socat -d -d pty,raw,echo=0,link=/tmp/p7 pty,raw,echo=0,link=/tmp/p8 &
 	socat -d -d pty,raw,echo=0,link=/tmp/p9 pty,raw,echo=0,link=/tmp/p10 &
-
-nodo1: nodo
-	./nodo 192.168.130.1 /tmp/p1 /tmp/p2
-
-nodo2: nodo
-	./nodo 192.168.130.2 /tmp/p3 /tmp/p4
-
-nodo3: nodo
-	./nodo 192.168.130.3 /tmp/p5 /tmp/p6
-
-nodo4: nodo
-	./nodo 192.168.130.4 /tmp/p7 /tmp/p8
-
-nodo5: nodo
-	./nodo 192.168.130.5 /tmp/p9 /tmp/p10
+	sleep 5 # Esperar a que los puertos se configuren
+	./nodo 192.168.1.1 /tmp/p1 /tmp/p2

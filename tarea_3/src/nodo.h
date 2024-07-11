@@ -1,25 +1,33 @@
 #ifndef NODO_H
 #define NODO_H
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <vector>
-#include <string>
+#define MAX_TTL 64
+#define TABLE_SIZE 10
+#define IP_BROADCAST "F.F.F.F"
 
-// Definición de la estructura de la tabla de rutas
-struct Ruta {
-    std::string ip;
-    int puerto;
+typedef struct {
+    char ip[16];
+    int puerto1;
+    int puerto2;
     int ttl;
-};
+    char nombre[16];
+} TablaRuta;
 
-// Declaraciones de funciones
-void enviarMensaje(const char* tipo, const char* mensaje, const char* destino, int puerto, std::vector<Ruta> &tablaRutas);
-void recibirMensaje(const char* mensaje, std::vector<Ruta> &tablaRutas);
-void reenviarMensaje(const char* tipo, const char* mensaje, int puerto, int ttl, std::vector<Ruta> &tablaRutas);
-void mostrarTablaRutas(const std::vector<Ruta> &tablaRutas);
-void manejarFragmentacion(const char* mensaje, int tamanoFragmento, std::vector<std::string> &fragmentos);
-std::string ensamblarFragmentos(const std::vector<std::string> &fragmentos);
+typedef struct {
+    char ip[16];
+    TablaRuta tabla_ruta[TABLE_SIZE];
+    int num_rutas;
+} Nodo;
 
-#endif
+extern Nodo nodo; // Declaración de la variable global nodo
+
+void inicializar_nodo(const char* ip, const char* puerto1, const char* puerto2);
+void mostrar_tabla_ruta(const Nodo* nodo);
+void recibir_mensaje(char* mensaje);
+void procesar_mensaje_broadcast(const char* ip_origen, int ttl);
+void procesar_mensaje_unicast(const char* ip_origen, const char* ip_destino, int ttl, const char* mensaje);
+void encapsular_ipv4(const char* mensaje, const char* ip_origen, const char* ip_destino, int ttl, char* paquete);
+void encapsular_slip(const char* paquete, char* trama);
+void enviar_mensaje(const char* ip_destino, const char* mensaje, int es_broadcast);
+
+#endif // NODO_H
