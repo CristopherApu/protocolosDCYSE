@@ -19,5 +19,7 @@ void enviarMensaje(const char* tipo, const char* mensaje, const char* destino, i
 void recibirMensaje(const char* mensaje, std::vector<Ruta> &tablaRutas);
 void reenviarMensaje(const char* tipo, const char* mensaje, int puerto, int ttl, std::vector<Ruta> &tablaRutas);
 void mostrarTablaRutas(const std::vector<Ruta> &tablaRutas);
+void manejarFragmentacion(const char* mensaje, int tamanoFragmento, std::vector<std::string> &fragmentos);
+std::string ensamblarFragmentos(const std::vector<std::string> &fragmentos);
 
 #endif
